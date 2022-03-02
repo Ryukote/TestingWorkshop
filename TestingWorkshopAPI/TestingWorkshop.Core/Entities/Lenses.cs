@@ -1,8 +1,9 @@
 ﻿using System;
+using TestingWorkshop.Core.Contracts;
 
 namespace TestingWorkshop.Core.Entities
 {
-    public class Lenses
+    public class Lenses : IModel
     {
         public Guid Id { get; set; }
         public string Manufacturer { get; set; }

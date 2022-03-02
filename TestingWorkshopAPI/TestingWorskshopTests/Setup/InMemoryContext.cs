@@ -12,7 +12,7 @@ namespace TestingWorskshopTests.Setup
             builder.UseInMemoryDatabase(databaseName: databaseName);
             options = builder.Options;
             TestingWorkshopContext context = new TestingWorkshopContext(options);
-            //context.Database.EnsureCreated();
+            context.Database.EnsureCreated();
 
             return context;
         }
