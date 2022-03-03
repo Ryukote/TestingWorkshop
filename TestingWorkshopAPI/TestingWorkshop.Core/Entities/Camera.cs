@@ -7,7 +7,7 @@ namespace TestingWorkshop.Core.Entities
     public class Camera : IModel
     {
         public Guid Id { get; set; }
-        [Required]
+        [MinLength(3)]
         public string Manufacturer { get; set; }
         public string Model { get; set; }
         public int YearOfProduction { get; set; }

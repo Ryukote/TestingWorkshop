@@ -16,13 +16,16 @@ namespace TestingWorkshopAPI.DataAccess
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             #region Camera
-            modelBuilder.Entity<Camera>()
-                .Property(x => x.Manufacturer)
-                .IsRequired();
+            //modelBuilder.Entity<Camera>()
+            //    .HasKey(x => x.Id);
 
-            modelBuilder.Entity<Camera>()
-                .Property(x => x.Model)
-                .IsRequired();
+            //modelBuilder.Entity<Camera>()
+            //    .Property(x => x.Manufacturer)
+            //    .IsRequired();
+
+            //modelBuilder.Entity<Camera>()
+            //    .Property(x => x.Model)
+            //    .IsRequired();
             #endregion
 
             #region Lenses

@@ -22,7 +22,6 @@ namespace TestingWorskshopTests.Fixtures
 
         public CameraFixture()
         {
-            //SQLiteInMemoryContext().Create(Guid.NewGuid().ToString())
             DbContext = new SQLiteInMemoryContext().Create(Guid.NewGuid().ToString());
             Mapper = new CameraMapper();
         }
@@ -39,45 +38,6 @@ namespace TestingWorskshopTests.Fixtures
         }
 
         [Fact, Priority(1)]
-        public async Task WillNotGetCamera()
-        {
-            //arrange
-            var handler = new CameraHandler(_fixture.DbContext, _fixture.Mapper);
-
-            //act
-            var result = await handler.GetById(Guid.NewGuid());
-
-            //assert
-            Assert.Null(result);
-        }
-
-        [Fact, Priority(2)]
-        public async Task WillNotAddCamera()
-        {
-            //arrange
-            var handler = new CameraHandler(_fixture.DbContext, _fixture.Mapper);
-
-            var camera = new FakeCamera().Create();
-            camera.Manufacturer = null;
-
-            //act and assert
-            await Assert.ThrowsAsync<DbUpdateException>(async () => await handler.Add(camera));
-        }
-
-        [Fact, Priority(3)]
-        public async Task WillNotDeleteCamera()
-        {
-            //arange
-            var handler = new CameraHandler(_fixture.DbContext, _fixture.Mapper);
-
-            //act
-            var result = await handler.Delete(Guid.NewGuid());
-
-            //assert
-            Assert.Null(result);
-        }
-
-        [Fact, Priority(4)]
         public async Task WillAddCamera()
         {
             //arange
@@ -90,12 +50,13 @@ namespace TestingWorskshopTests.Fixtures
 
             _fixture.CameraId = result.Value;
             _fixture.Camera = camera;
+            _fixture.Camera.Id = _fixture.CameraId;
 
             //assert
             Assert.NotNull(result);
         }
 
-        [Fact, Priority(5)]
+        [Fact, Priority(2)]
         public async Task WillGetCameraById()
         {
             //arange
@@ -110,23 +71,7 @@ namespace TestingWorskshopTests.Fixtures
             Assert.NotNull(selectedCamera.Model);
         }
 
-        [Fact, Priority(6)]
-        public async Task WillNotUpdateCamera()
-        {
-            //arrange
-            var handler = new CameraHandler(_fixture.DbContext, _fixture.Mapper);
-
-            var camera = new FakeCamera().Create();
-
-            //act and assert
-            camera.Id = _fixture.CameraId;
-
-            camera.Manufacturer = null;
-
-            await Assert.ThrowsAsync<DbUpdateException>(async () => await handler.Update(camera.Id, camera));
-        }
-
-        [Fact, Priority(7)]
+        [Fact, Priority(3)]
         public async Task WillUpdateCamera()
         {
             //arange
@@ -138,14 +83,14 @@ namespace TestingWorskshopTests.Fixtures
 
             _fixture.Camera.Manufacturer = updatedCameraManufacturer;
 
-            var updateResult = await handler.Update(_fixture.Camera.Id, _fixture.Camera);
+            var updateResult = await handler.Update(_fixture.CameraId, _fixture.Camera);
 
             //assert
             Assert.NotNull(updateResult);
             Assert.NotEqual(originalManufacturer, updatedCameraManufacturer);
         }
 
-        [Fact, Priority(8)]
+        [Fact, Priority(4)]
         public async Task WillDeleteCamera()
         {
             //arange
@@ -157,7 +102,6 @@ namespace TestingWorskshopTests.Fixtures
             var selectedResult = await handler.GetById(_fixture.Camera.Id);
 
             //assert
-            Assert.NotNull(deleteResult.Value);
             Assert.Null(selectedResult);
         }
     }

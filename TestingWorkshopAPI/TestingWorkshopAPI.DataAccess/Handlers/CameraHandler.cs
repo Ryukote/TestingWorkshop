@@ -22,8 +22,8 @@ namespace TestingWorkshopAPI.DataAccess.Handlers
         {
             try
             {
-                _context.Database.BeginTransaction();
                 var camera = _mapper.ToModel(viewModel);
+                camera.Id = Guid.NewGuid();
 
                 //var camera = new Camera()
                 //{
@@ -36,19 +36,20 @@ namespace TestingWorkshopAPI.DataAccess.Handlers
 
                 _context.Camera.Add(camera);
 
+                //_context.Add(camera);
+
                 if (await _context.SaveChangesAsync() == 1)
                 {
-                    _context.Database.CommitTransaction();
                     return camera.Id;
                 }
 
-                _context.Camera.Remove(camera);
+                
 
                 return null;
             }
             catch (Exception ex)
             {
-                await _context.Database.RollbackTransactionAsync();
+                //_context.Camera.Remove(_mapper.ToModel(viewModel));
                 throw ex;
             }
         }

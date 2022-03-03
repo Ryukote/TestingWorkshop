@@ -25,7 +25,7 @@ namespace TestingWorskshopTests.Setup
 
             if (context != null)
             {
-                context.Database.EnsureDeleted();
+                //context.Database.EnsureDeleted();
                 context.Database.EnsureCreated();
             }
 
